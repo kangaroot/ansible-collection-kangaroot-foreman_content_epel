@@ -1,0 +1,138 @@
+---
+# noqa: var-naming[no-role-prefix]
+# defaults file for foreman_content_epel
+
+#######################################
+### URLS
+#######################################
+
+### EPEL
+
+foreman_repo_baseurl_epel: https://dl.fedoraproject.org/pub/epel
+
+
+#######################################
+### ENABLE VARS
+#######################################
+
+### EPEL
+
+foreman_enable_epel: false
+
+foreman_enable_epel_el7: false
+foreman_enable_epel_el8: "{{ foreman_enable_epel | bool }}"
+foreman_enable_epel_el9: "{{ foreman_enable_epel | bool }}"
+
+
+#######################################
+### PRODUCT DEFAULTS
+#######################################
+
+### EPEL
+
+foreman_products_defaults_download_policy_epel: "{{ foreman_products_defaults_download_policy }}"
+foreman_products_defaults_mirroring_policy_epel: mirror_content_only
+foreman_products_defaults_verify_ssl_on_sync_epel: "{{ foreman_products_defaults_verify_ssl_on_sync | bool }}"
+foreman_products_defaults_http_proxy_policy_epel: "{{ foreman_products_defaults_http_proxy_policy }}"
+foreman_products_defaults_unprotected_epel: "{{ foreman_products_defaults_unprotected | bool }}"
+
+foreman_products_defaults_download_policy_epel_el7: immediate
+foreman_products_defaults_mirroring_policy_epel_el7: "{{ foreman_products_defaults_mirroring_policy_epel }}"
+foreman_products_defaults_verify_ssl_on_sync_epel_el7: "{{ foreman_products_defaults_verify_ssl_on_sync_epel | bool }}"
+foreman_products_defaults_http_proxy_policy_epel_el7: "{{ foreman_products_defaults_http_proxy_policy_epel }}"
+foreman_products_defaults_unprotected_epel_el7: "{{ foreman_products_defaults_unprotected_epel | bool }}"
+
+foreman_products_defaults_download_policy_epel_el8: "{{ foreman_products_defaults_download_policy_epel }}"
+foreman_products_defaults_mirroring_policy_epel_el8: "{{ foreman_products_defaults_mirroring_policy_epel }}"
+foreman_products_defaults_verify_ssl_on_sync_epel_el8: "{{ foreman_products_defaults_verify_ssl_on_sync_epel | bool }}"
+foreman_products_defaults_http_proxy_policy_epel_el8: "{{ foreman_products_defaults_http_proxy_policy_epel }}"
+foreman_products_defaults_unprotected_epel_el8: "{{ foreman_products_defaults_unprotected_epel | bool }}"
+
+foreman_products_defaults_download_policy_epel_el9: "{{ foreman_products_defaults_download_policy_epel }}"
+foreman_products_defaults_mirroring_policy_epel_el9: "{{ foreman_products_defaults_mirroring_policy_epel }}"
+foreman_products_defaults_verify_ssl_on_sync_epel_el9: "{{ foreman_products_defaults_verify_ssl_on_sync_epel | bool }}"
+foreman_products_defaults_http_proxy_policy_epel_el9: "{{ foreman_products_defaults_http_proxy_policy_epel }}"
+foreman_products_defaults_unprotected_epel_el9: "{{ foreman_products_defaults_unprotected_epel | bool }}"
+
+
+#######################################
+### ORGANIZATION VARS
+#######################################
+
+### EPEL
+
+foreman_organization_epel: "{{ foreman_organization }}"
+
+foreman_organization_epel_el7: "{{ foreman_organization_epel }}"
+foreman_organization_epel_el8: "{{ foreman_organization_epel }}"
+foreman_organization_epel_el9: "{{ foreman_organization_epel }}"
+
+
+#######################################
+### CONTENT VIEW DEFAULTS
+#######################################
+
+### EPEL
+
+foreman_cv_allow_promote_epel: "{{ foreman_cv_allow_promote | bool }}"
+
+foreman_cv_allow_promote_epel_el7: "{{ foreman_cv_allow_promote_epel | bool }}"
+foreman_cv_allow_promote_epel_el8: "{{ foreman_cv_allow_promote_epel | bool }}"
+foreman_cv_allow_promote_epel_el9: "{{ foreman_cv_allow_promote_epel | bool }}"
+
+
+#######################################
+### CONTENT
+#######################################
+
+foreman_content_credentials_epel_main: []
+foreman_content_credentials_epel: "{{ ( foreman_content_credentials_epel_main | default([]) if foreman_enable_epel | bool else [] ) |
+  union( foreman_content_credentials_epel_el7 | default([]) if foreman_enable_epel_el7 | bool else [] ) |
+  union( foreman_content_credentials_epel_el8 | default([]) if foreman_enable_epel_el8 | bool else [] ) |
+  union( foreman_content_credentials_epel_el9 | default([]) if foreman_enable_epel_el9 | bool else [] )
+  }}"
+
+foreman_products_epel_main: []
+foreman_products_epel: "{{ ( foreman_products_epel_main | default([]) if foreman_enable_epel | bool else [] ) |
+  union( foreman_products_epel_el7 | default([]) if foreman_enable_epel_el7 | bool else [] ) |
+  union( foreman_products_epel_el8 | default([]) if foreman_enable_epel_el8 | bool else [] ) |
+  union( foreman_products_epel_el9 | default([]) if foreman_enable_epel_el9 | bool else [] )
+  }}"
+
+foreman_content_views_epel_main: []
+foreman_content_views_epel: "{{ ( foreman_content_views_epel_main | default([]) if foreman_enable_epel | bool else [] ) |
+  union( foreman_content_views_epel_el7 | default([]) if foreman_enable_epel_el7 | bool else [] ) |
+  union( foreman_content_views_epel_el8 | default([]) if foreman_enable_epel_el8 | bool else [] ) |
+  union( foreman_content_views_epel_el9 | default([]) if foreman_enable_epel_el9 | bool else [] )
+  }}"
+
+foreman_operatingsystems_epel_main: []
+foreman_operatingsystems_epel: "{{ ( foreman_operatingsystems_epel_main | default([]) if foreman_enable_epel | bool else [] ) |
+  union( foreman_operatingsystems_epel_el7 | default([]) if foreman_enable_epel_el7 | bool else [] ) |
+  union( foreman_operatingsystems_epel_el8 | default([]) if foreman_enable_epel_el8 | bool else [] ) |
+  union( foreman_operatingsystems_epel_el9 | default([]) if foreman_enable_epel_el9 | bool else [] )
+  }}"
+
+foreman_installation_media_epel_main: []
+foreman_installation_media_epel: "{{ ( foreman_installation_media_epel_main | default([]) if foreman_enable_epel | bool else [] ) |
+  union( foreman_installation_media_epel_el7 | default([]) if foreman_enable_epel_el7 | bool else [] ) |
+  union( foreman_installation_media_epel_el8 | default([]) if foreman_enable_epel_el8 | bool else [] ) |
+  union( foreman_installation_media_epel_el9 | default([]) if foreman_enable_epel_el9 | bool else [] )
+  }}"
+
+foreman_activation_keys_epel_main: []
+foreman_activation_keys_epel: "{{ ( foreman_activation_keys_epel_main | default([]) if foreman_enable_epel | bool else [] ) |
+  union( foreman_activation_keys_epel_el7 | default([]) if foreman_enable_epel_el7 | bool else [] ) |
+  union( foreman_activation_keys_epel_el8 | default([]) if foreman_enable_epel_el8 | bool else [] ) |
+  union( foreman_activation_keys_epel_el9 | default([]) if foreman_enable_epel_el9 | bool else [] )
+  }}"
+
+foreman_sync_plan_products_epel_main:
+  - "{{ foreman_product_name_prefix | default('') }}Extra Packages for Enterprise Linux"
+
+foreman_sync_plan_products_epel: "{{ ( foreman_sync_plan_products_epel_main | default([]) if foreman_enable_epel | bool else [] ) |
+  union( foreman_sync_plan_products_epel_el7 | default([]) if foreman_enable_epel_el7 | bool else [] ) |
+  union( foreman_sync_plan_products_epel_el8 | default([]) if foreman_enable_epel_el8 | bool else [] ) |
+  union( foreman_sync_plan_products_epel_el9 | default([]) if foreman_enable_epel_el9 | bool else [] )
+  }}"
+

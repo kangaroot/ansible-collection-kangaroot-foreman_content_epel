@@ -1,0 +1,166 @@
+---
+# noqa: var-naming[no-role-prefix]
+
+foreman_content_credentials_epel_el7:
+  - name: "{{ foreman_cred_name_prefix | default('') }}RPM-GPG-KEY-EPEL-7"
+    content_type: gpg_key
+    content: "{{ lookup('ansible.builtin.url', foreman_repo_baseurl_epel ~ '/RPM-GPG-KEY-EPEL-7', split_lines=False, validate_certs=False) }}"
+    # content: "{{ lookup('ansible.builtin.file', role_path ~ '/files/RPM-GPG-KEY-EPEL-7') }}"
+
+foreman_content_credentials_epel_el8:
+  - name: "{{ foreman_cred_name_prefix | default('') }}RPM-GPG-KEY-EPEL-8"
+    content_type: gpg_key
+    content: "{{ lookup('ansible.builtin.url', foreman_repo_baseurl_epel ~ '/RPM-GPG-KEY-EPEL-8', split_lines=False, validate_certs=False) }}"
+    # content: "{{ lookup('ansible.builtin.file', role_path ~ '/files/RPM-GPG-KEY-EPEL-8') }}"
+
+foreman_content_credentials_epel_el9:
+  - name: "{{ foreman_cred_name_prefix | default('') }}RPM-GPG-KEY-EPEL-9"
+    content_type: gpg_key
+    content: "{{ lookup('ansible.builtin.url', foreman_repo_baseurl_epel ~ '/RPM-GPG-KEY-EPEL-9', split_lines=False, validate_certs=False) }}"
+    # content: "{{ lookup('ansible.builtin.file', role_path ~ '/files/RPM-GPG-KEY-EPEL-9') }}"
+
+
+foreman_products_defaults: &foreman_products_defaults
+  content_type: yum
+  gpg_key: "{{ foreman_cred_name_prefix | default('') }}RPM-GPG-KEY-EPEL-7"
+  download_policy: "{{ foreman_products_defaults_download_policy_epel }}"
+  # mirror_on_sync: True
+  # mirroring_policy: "additive"
+  # mirroring_policy: "mirror_content_only"
+  # mirroring_policy: "mirror_complete"
+  mirroring_policy: "{{ foreman_products_defaults_mirroring_policy_epel }}"
+  verify_ssl_on_sync: "{{ foreman_products_defaults_verify_ssl_on_sync_epel | bool }}"
+  # http_proxy: Default Proxy
+  http_proxy_policy: "{{ foreman_products_defaults_http_proxy_policy_epel }}"
+  unprotected: "{{ foreman_products_defaults_unprotected_epel | bool }}"
+
+
+foreman_products_defaults_epel_el7: &foreman_products_defaults_epel_el7
+  <<: *foreman_products_defaults
+  gpg_key: "{{ foreman_cred_name_prefix | default('') }}RPM-GPG-KEY-EPEL-7"
+  download_policy: "{{ foreman_products_defaults_download_policy_epel_el7 }}"
+  mirroring_policy: "{{ foreman_products_defaults_mirroring_policy_epel_el7 }}"
+  verify_ssl_on_sync: "{{ foreman_products_defaults_verify_ssl_on_sync_epel_el7 | bool }}"
+  http_proxy_policy: "{{ foreman_products_defaults_http_proxy_policy_epel_el7 }}"
+  unprotected: "{{ foreman_products_defaults_unprotected_epel_el7 | bool }}"
+
+foreman_products_defaults_epel_el8: &foreman_products_defaults_epel_el8
+  <<: *foreman_products_defaults
+  gpg_key: "{{ foreman_cred_name_prefix | default('') }}RPM-GPG-KEY-EPEL-8"
+  download_policy: "{{ foreman_products_defaults_download_policy_epel_el8 }}"
+  mirroring_policy: "{{ foreman_products_defaults_mirroring_policy_epel_el8 }}"
+  verify_ssl_on_sync: "{{ foreman_products_defaults_verify_ssl_on_sync_epel_el8 | bool }}"
+  http_proxy_policy: "{{ foreman_products_defaults_http_proxy_policy_epel_el8 }}"
+  unprotected: "{{ foreman_products_defaults_unprotected_epel_el8 | bool }}"
+
+foreman_products_defaults_epel_el9: &foreman_products_defaults_epel_el9
+  <<: *foreman_products_defaults
+  gpg_key: "{{ foreman_cred_name_prefix | default('') }}RPM-GPG-KEY-EPEL-9"
+  download_policy: "{{ foreman_products_defaults_download_policy_epel_el9 }}"
+  mirroring_policy: "{{ foreman_products_defaults_mirroring_policy_epel_el9 }}"
+  verify_ssl_on_sync: "{{ foreman_products_defaults_verify_ssl_on_sync_epel_el9 | bool }}"
+  http_proxy_policy: "{{ foreman_products_defaults_http_proxy_policy_epel_el9 }}"
+  unprotected: "{{ foreman_products_defaults_unprotected_epel_el9 | bool }}"
+
+
+foreman_products_epel_el7:
+  - name: "{{ foreman_product_name_prefix | default('') }}Extra Packages for Enterprise Linux"
+    label: "{{ foreman_product_label_prefix | default('') }}EPEL"
+    organization: "{{ foreman_organization_epel_el7 }}"
+    repositories:
+      - name: "{{ foreman_repo_name_prefix | default('') }}Extra Packages for Enterprise Linux 7 - x86_64"
+        label: "{{ foreman_repo_label_prefix | default('') }}epel-7"
+        url: "{{ foreman_repo_baseurl_epel }}/7/x86_64/"
+        <<: *foreman_products_defaults_epel_el7
+        organization: "{{ foreman_organization_epel_el7 }}"
+
+foreman_products_epel_el8:
+  - name: "{{ foreman_product_name_prefix | default('') }}Extra Packages for Enterprise Linux"
+    label: "{{ foreman_product_label_prefix | default('') }}EPEL"
+    organization: "{{ foreman_organization_epel_el8 }}"
+    repositories:
+      - name: "{{ foreman_repo_name_prefix | default('') }}Extra Packages for Enterprise Linux 8 - x86_64"
+        label: "{{ foreman_repo_label_prefix | default('') }}epel-8"
+        url: "{{ foreman_repo_baseurl_epel }}/8/Everything/x86_64/"
+        <<: *foreman_products_defaults_epel_el8
+        organization: "{{ foreman_organization_epel_el8 }}"
+      - name: "{{ foreman_repo_name_prefix | default('') }}Extra Packages for Enterprise Linux Modular 8 - x86_64"
+        label: "{{ foreman_repo_label_prefix | default('') }}epel-8-modular"
+        url: "{{ foreman_repo_baseurl_epel }}/8/Modular/x86_64/"
+        <<: *foreman_products_defaults_epel_el8
+        organization: "{{ foreman_organization_epel_el8 }}"
+      - name: "{{ foreman_repo_name_prefix | default('') }}Extra Packages for Enterprise Linux 8 - Next - x86_64"
+        label: "{{ foreman_repo_label_prefix | default('') }}epel-8-next"
+        url: "{{ foreman_repo_baseurl_epel }}/next/8/Everything/x86_64/"
+        <<: *foreman_products_defaults_epel_el8
+        organization: "{{ foreman_organization_epel_el8 }}"
+      # - name: Extra Packages for Enterprise Linux 8 - Playground - x86_64
+      #   label: epel-8-playground
+      #   url: "{{ foreman_repo_baseurl_epel }}/playground/8/Everything/x86_64/os/"
+      #   <<: *foreman_products_defaults_epel_el8
+      #   organization: "{{ foreman_organization_epel_el8 }}"
+
+foreman_products_epel_el9:
+  - name: "{{ foreman_product_name_prefix | default('') }}Extra Packages for Enterprise Linux"
+    label: "{{ foreman_product_label_prefix | default('') }}EPEL"
+    organization: "{{ foreman_organization_epel_el9 }}"
+    repositories:
+      - name: "{{ foreman_repo_name_prefix | default('') }}Extra Packages for Enterprise Linux 9 - x86_64"
+        label: "{{ foreman_repo_label_prefix | default('') }}epel-9"
+        url: "{{ foreman_repo_baseurl_epel }}/9/Everything/x86_64/"
+        <<: *foreman_products_defaults_epel_el9
+        organization: "{{ foreman_organization_epel_el9 }}"
+      - name: "{{ foreman_repo_name_prefix | default('') }}Extra Packages for Enterprise Linux 9 - Next - x86_64"
+        label: "{{ foreman_repo_label_prefix | default('') }}epel-9-next"
+        url: "{{ foreman_repo_baseurl_epel }}/next/9/Everything/x86_64/"
+        <<: *foreman_products_defaults_epel_el9
+        organization: "{{ foreman_organization_epel_el9 }}"
+
+foreman_content_views_epel_el7:
+  - name: "{{ foreman_cv_prefix | default('cv_') }}{{ foreman_cv_name_prefix | default('') }}epel7"
+    organization: "{{ foreman_organization_epel_el7 }}"
+    repositories:
+      - name: "{{ foreman_repo_name_prefix | default('') }}Extra Packages for Enterprise Linux 7 - x86_64"
+        product: "{{ foreman_product_name_prefix | default('') }}Extra Packages for Enterprise Linux"
+    allow_promote: "{{ foreman_cv_allow_promote_epel_el7 }}"
+
+foreman_content_views_epel_el8:
+  - name: "{{ foreman_cv_prefix | default('cv_') }}{{ foreman_cv_name_prefix | default('') }}epel8"
+    organization: "{{ foreman_organization_epel_el8 }}"
+    repositories:
+      - name: "{{ foreman_repo_name_prefix | default('') }}Extra Packages for Enterprise Linux 8 - x86_64"
+        product: "{{ foreman_product_name_prefix | default('') }}Extra Packages for Enterprise Linux"
+    allow_promote: "{{ foreman_cv_allow_promote_epel_el8 }}"
+  - name: "{{ foreman_cv_prefix | default('cv_') }}{{ foreman_cv_name_prefix | default('') }}epel8_modular"
+    organization: "{{ foreman_organization_epel_el8 }}"
+    repositories:
+      - name: "{{ foreman_repo_name_prefix | default('') }}Extra Packages for Enterprise Linux Modular 8 - x86_64"
+        product: "{{ foreman_product_name_prefix | default('') }}Extra Packages for Enterprise Linux"
+    allow_promote: "{{ foreman_cv_allow_promote_epel_el8 }}"
+  - name: "{{ foreman_cv_prefix | default('cv_') }}{{ foreman_cv_name_prefix | default('') }}epel8_next"
+    organization: "{{ foreman_organization_epel_el8 }}"
+    repositories:
+      - name: "{{ foreman_repo_name_prefix | default('') }}Extra Packages for Enterprise Linux 8 - Next - x86_64"
+        product: "{{ foreman_product_name_prefix | default('') }}Extra Packages for Enterprise Linux"
+    allow_promote: "{{ foreman_cv_allow_promote_epel_el8 }}"
+  # - name: "{{ foreman_cv_prefix | default('cv_') }}epel8_playground"
+  #   organization: "{{ foreman_organization_epel_el8 }}"
+  #   repositories:
+  #     - name: Extra Packages for Enterprise Linux 8 - Playground - x86_64
+  #       product: Extra Packages for Enterprise Linux
+  #   allow_promote: "{{ foreman_cv_allow_promote_epel_el8 }}"
+
+foreman_content_views_epel_el9:
+  - name: "{{ foreman_cv_prefix | default('cv_') }}{{ foreman_cv_name_prefix | default('') }}epel9"
+    organization: "{{ foreman_organization_epel_el9 }}"
+    repositories:
+      - name: "{{ foreman_repo_name_prefix | default('') }}Extra Packages for Enterprise Linux 9 - x86_64"
+        product: "{{ foreman_product_name_prefix | default('') }}Extra Packages for Enterprise Linux"
+    allow_promote: "{{ foreman_cv_allow_promote_epel_el9 }}"
+  - name: "{{ foreman_cv_prefix | default('cv_') }}{{ foreman_cv_name_prefix | default('') }}epel9_next"
+    organization: "{{ foreman_organization_epel_el9 }}"
+    repositories:
+      - name: "{{ foreman_repo_name_prefix | default('') }}Extra Packages for Enterprise Linux 9 - Next - x86_64"
+        product: "{{ foreman_product_name_prefix | default('') }}Extra Packages for Enterprise Linux"
+    allow_promote: "{{ foreman_cv_allow_promote_epel_el9 }}"
+
